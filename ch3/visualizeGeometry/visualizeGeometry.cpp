@@ -69,7 +69,8 @@ struct RotationVectorDraw
 
 ostream& operator << (ostream& out, const RotationVectorDraw& RV)
 {
-    out<<"=["<<RV.rotation_vector(0)<<','<<RV.rotation_vector(1)<<','<<RV.rotation_vector(2)<<','<<RV.rotation_vector(3)<<"]";
+    Vector3d axiss = RV.rotation_vector.axis();
+    out<<"=["<<axiss(0)<<','<<axiss(1)<<','<<axiss(2)<<']'<<"["<<RV.rotation_vector.angle()<<"]";
     return out;
 }
 
@@ -96,6 +97,7 @@ int main ( int argc, char** argv )
     pangolin::Var<TranslationVector> translation_vector("ui.t", TranslationVector());
     pangolin::Var<TranslationVector> euler_angles("ui.rpy", TranslationVector());
     pangolin::Var<QuaternionDraw> quaternion("ui.q", QuaternionDraw());
+    pangolin::Var<RotationVectorDraw> rotationvector("ui.rv", RotationVectorDraw());
     pangolin::CreatePanel("ui")
         .SetBounds(0.0, 1.0, 0.0, pangolin::Attach::Pix(UI_WIDTH));
 
@@ -120,12 +122,16 @@ int main ( int argc, char** argv )
         translation_vector = t;
 
         TranslationVector euler;
-        euler.trans = R.matrix.transpose().eulerAngles(2,1,0);
+        euler.trans = R.matrix.eulerAngles(2,1,0);
         euler_angles = euler;
 
         QuaternionDraw quat;
         quat.q = Quaterniond(R.matrix);
         quaternion = quat;
+
+        RotationVectorDraw RV;
+        RV.rotation_vector = AngleAxisd(quat.q);
+        rotationvector = RV;
 
         glColor3f(1.0,1.0,1.0);
 
