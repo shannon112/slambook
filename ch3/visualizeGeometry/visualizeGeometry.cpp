@@ -62,6 +62,21 @@ istream& operator >> (istream& in, const QuaternionDraw quat)
     return in;
 }
 
+struct RotationVectorDraw
+{
+    AngleAxisd rotation_vector;
+};
+
+ostream& operator << (ostream& out, const RotationVectorDraw& RV)
+{
+    out<<"=["<<RV.rotation_vector(0)<<','<<RV.rotation_vector(1)<<','<<RV.rotation_vector(2)<<','<<RV.rotation_vector(3)<<"]";
+    return out;
+}
+
+istream& operator >> ( istream& in, RotationVectorDraw& RV)
+{
+    return in;
+}
 
 int main ( int argc, char** argv )
 {
