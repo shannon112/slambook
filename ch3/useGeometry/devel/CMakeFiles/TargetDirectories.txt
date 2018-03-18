@@ -1,0 +1,1 @@
+/home/shannon2/code/slambook/ch3/useGeometry/devel/CMakeFiles/eigenGeometry.dir
